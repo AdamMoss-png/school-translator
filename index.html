@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Real-Time Translator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div id="app" class="p-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-4">
+                <div class="flex items-center gap-3 mb-6">
+                    <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-gray-800">School Translator</h1>
+                </div>
+
+                <!-- Language Settings - Always Visible -->
+                <div class="bg-gradient-to-r from-indigo-50 to-green-50 rounded-lg p-4 mb-4">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                        </svg>
+                        Select Languages
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-indigo-700 mb-2">
+                                👔 Administrator Language
+                            </label>
+                            <select id="adminLang" class="w-full p-3 border-2 border-indigo-200 rounded-lg focus:border-indigo-500 focus:outline-none bg-white">
+                            <option value="en-US">English</option>
+                            <option value="es-ES">Spanish</option>
+                            <option value="es-MX">Spanish (Mexico)</option>
+                            <option value="zh-CN">Mandarin Chinese</option>
+                            <option value="zh-HK">Cantonese</option>
+                            <option value="vi-VN">Vietnamese</option>
+                            <option value="ar-SA">Arabic</option>
+                            <option value="ht-HT">Haitian Creole</option>
+                            <option value="so-SO">Somali</option>
+                            <option value="ru-RU">Russian</option>
+                            <option value="pt-BR">Portuguese</option>
+                            <option value="ko-KR">Korean</option>
+                            <option value="fil-PH">Tagalog</option>
+                            <option value="fr-FR">French</option>
+                            <option value="de-DE">German</option>
+                            <option value="it-IT">Italian</option>
+                            <option value="ja-JP">Japanese</option>
+                            <option value="pl-PL">Polish</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="ur-PK">Urdu</option>
+                            <option value="bn-BD">Bengali</option>
+                            <option value="ne-NP">Nepali</option>
+                            <option value="sw-KE">Swahili</option>
+                            <option value="uk-UA">Ukrainian</option>
+                            <option value="th-TH">Thai</option>
+                            <option value="am-ET">Amharic</option>
+                            <option value="chk">Chuukese (Trukese)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">
+                            👨‍👩‍👧‍👦 Parent/Guardian Language
+                        </label>
+                        <select id="parentLang" class="w-full p-3 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none bg-white">
+                            <option value="en-US">English</option>
+                            <option value="es-ES" selected>Spanish</option>
+                            <option value="es-MX">Spanish (Mexico)</option>
+                            <option value="zh-CN">Mandarin Chinese</option>
+                            <option value="zh-HK">Cantonese</option>
+                            <option value="vi-VN">Vietnamese</option>
+                            <option value="ar-SA">Arabic</option>
+                            <option value="ht-HT">Haitian Creole</option>
+                            <option value="so-SO">Somali</option>
+                            <option value="ru-RU">Russian</option>
+                            <option value="pt-BR">Portuguese</option>
+                            <option value="ko-KR">Korean</option>
+                            <option value="fil-PH">Tagalog</option>
+                            <option value="fr-FR">French</option>
+                            <option value="de-DE">German</option>
+                            <option value="it-IT">Italian</option>
+                            <option value="ja-JP">Japanese</option>
+                            <option value="pl-PL">Polish</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="ur-PK">Urdu</option>
+                            <option value="bn-BD">Bengali</option>
+                            <option value="ne-NP">Nepali</option>
+                            <option value="sw-KE">Swahili</option>
+                            <option value="uk-UA">Ukrainian</option>
+                            <option value="th-TH">Thai</option>
+                            <option value="am-ET">Amharic</option>
+                            <option value="chk">Chuukese (Trukese)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Demo Notice -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Demo Mode:</strong> This prototype uses browser-based speech recognition. 
+                        For production, integrate Google Cloud Translation API for accurate translations.
+                    </p>
+                </div>
+
+                <!-- Browser Support Warning -->
+                <div id="browserWarning" class="hidden bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                    <p class="text-sm text-red-800">
+                        <strong>Browser Not Supported:</strong> Please use Chrome, Edge, or Safari for speech recognition.
+                    </p>
+                </div>
+
+                <!-- Role Selector -->
+                <div class="flex gap-4">
+                    <button id="adminBtn" class="flex-1 p-4 rounded-lg font-medium transition bg-indigo-600 text-white">
+                        Administrator
+                        <div class="text-sm opacity-75 mt-1" id="adminLangLabel">English</div>
+                    </button>
+                    <button id="parentBtn" class="flex-1 p-4 rounded-lg font-medium transition bg-gray-100 text-gray-700">
+                        Parent/Guardian
+                        <div class="text-sm opacity-75 mt-1" id="parentLangLabel">Spanish</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Microphone Control -->
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-4">
+                <div class="text-center">
+                    <button id="micBtn" class="mx-auto w-32 h-32 rounded-full flex items-center justify-center transition-all transform hover:scale-105 bg-indigo-600 hover:bg-indigo-700 shadow-xl">
+                        <svg id="micIcon" class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                    </button>
+                    <p id="micStatus" class="mt-4 text-lg font-medium text-gray-700">Tap to speak</p>
+                    <p id="errorMsg" class="mt-2 text-red-500 text-sm hidden"></p>
+                </div>
+
+                <!-- Live Transcription -->
+                <div id="transcriptionArea" class="hidden mt-6 space-y-4">
+                    <div id="originalBox" class="hidden bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <span class="font-medium text-gray-700">Original:</span>
+                        </div>
+                        <p id="originalText" class="text-gray-800"></p>
+                    </div>
+                    <div id="translationBox" class="hidden rounded-lg p-4 bg-green-50">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                            </svg>
+                            <span class="font-medium text-gray-700">Translation:</span>
+                        </div>
+                        <p id="translationText" class="text-gray-800"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation History -->
+            <div id="historySection" class="hidden bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Conversation History</h2>
+                    <button id="clearBtn" class="text-sm text-red-600 hover:text-red-700 font-medium">Clear</button>
+                </div>
+                <div id="historyList" class="space-y-3 max-h-96 overflow-y-auto"></div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="mt-4 bg-white rounded-lg shadow-lg p-6">
+                <h3 class="font-bold text-gray-800 mb-2">How to Use:</h3>
+                <ol class="list-decimal list-inside space-y-2 text-gray-600 text-sm">
+                    <li>Select who is speaking (Administrator or Parent/Guardian)</li>
+                    <li>Configure languages in Settings if needed</li>
+                    <li>Tap the microphone button and start speaking</li>
+                    <li>Your speech will be transcribed and translated</li>
+                    <li>The translation will be spoken aloud automatically</li>
+                    <li>Switch roles for two-way conversation</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let state = {
+            isListening: false,
+            activeRole: 'admin',
+            adminLang: 'en-US',
+            parentLang: 'es-ES',
+            recognition: null,
+            synth: window.speechSynthesis,
+            history: []
+        };
+
+        const languages = {
+            'en-US': 'English',
+            'es-ES': 'Spanish',
+            'es-MX': 'Spanish (Mexico)',
+            'zh-CN': 'Mandarin Chinese',
+            'zh-HK': 'Cantonese',
+            'vi-VN': 'Vietnamese',
+            'ar-SA': 'Arabic',
+            'ht-HT': 'Haitian Creole',
+            'so-SO': 'Somali',
+            'ru-RU': 'Russian',
+            'pt-BR': 'Portuguese',
+            'ko-KR': 'Korean',
+            'fil-PH': 'Tagalog',
+            'fr-FR': 'French',
+            'de-DE': 'German',
+            'it-IT': 'Italian',
+            'ja-JP': 'Japanese',
+            'pl-PL': 'Polish',
+            'hi-IN': 'Hindi',
+            'ur-PK': 'Urdu',
+            'bn-BD': 'Bengali',
+            'ne-NP': 'Nepali',
+            'sw-KE': 'Swahili',
+            'uk-UA': 'Ukrainian',
+            'th-TH': 'Thai',
+            'am-ET': 'Amharic',
+            'chk': 'Chuukese (Trukese)'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkBrowserSupport();
+            initializeRecognition();
+            attachEventListeners();
+        });
+
+        function checkBrowserSupport() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                document.getElementById('browserWarning').classList.remove('hidden');
+                document.getElementById('micBtn').disabled = true;
+                return false;
+            }
+            return true;
+        }
+
+        function initializeRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return;
+
+            state.recognition = new SpeechRecognition();
+            state.recognition.continuous = true;
+            state.recognition.interimResults = true;
+
+            state.recognition.onresult = (event) => {
+                let finalTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + ' ';
+                    } else {
+                        document.getElementById('originalText').textContent = transcript;
+                        document.getElementById('originalBox').classList.remove('hidden');
+                        document.getElementById('transcriptionArea').classList.remove('hidden');
+                    }
+                }
+
+                if (finalTranscript) {
+                    handleTranscription(finalTranscript.trim());
+                }
+            };
+
+            state.recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                showError(`Error: ${event.error}`);
+                stopListening();
+            };
+
+            state.recognition.onend = () => {
+                stopListening();
+            };
+        }
+
+        function attachEventListeners() {
+            document.getElementById('adminBtn').addEventListener('click', () => setRole('admin'));
+            document.getElementById('parentBtn').addEventListener('click', () => setRole('parent'));
+            document.getElementById('micBtn').addEventListener('click', toggleListening);
+            document.getElementById('clearBtn').addEventListener('click', clearHistory);
+            document.getElementById('adminLang').addEventListener('change', updateLanguages);
+            document.getElementById('parentLang').addEventListener('change', updateLanguages);
+        }
+
+        function toggleSettings() {
+            // Settings now always visible, this function no longer needed
+        }
+
+        function setRole(role) {
+            state.activeRole = role;
+            
+            const adminBtn = document.getElementById('adminBtn');
+            const parentBtn = document.getElementById('parentBtn');
+            const micBtn = document.getElementById('micBtn');
+            const translationBox = document.getElementById('translationBox');
+            
+            if (role === 'admin') {
+                adminBtn.className = 'flex-1 p-4 rounded-lg font-medium transition bg-indigo-600 text-white';
+                parentBtn.className = 'flex-1 p-4 rounded-lg font-medium transition bg-gray-100 text-gray-700';
+                micBtn.className = 'mx-auto w-32 h-32 rounded-full flex items-center justify-center transition-all transform hover:scale-105 bg-indigo-600 hover:bg-indigo-700 shadow-xl';
+                translationBox.className = 'hidden rounded-lg p-4 bg-green-50';
+            } else {
+                adminBtn.className = 'flex-1 p-4 rounded-lg font-medium transition bg-gray-100 text-gray-700';
+                parentBtn.className = 'flex-1 p-4 rounded-lg font-medium transition bg-green-600 text-white';
+                micBtn.className = 'mx-auto w-32 h-32 rounded-full flex items-center justify-center transition-all transform hover:scale-105 bg-green-600 hover:bg-green-700 shadow-xl';
+                translationBox.className = 'hidden rounded-lg p-4 bg-indigo-50';
+            }
+        }
+
+        function updateLanguages() {
+            state.adminLang = document.getElementById('adminLang').value;
+            state.parentLang = document.getElementById('parentLang').value;
+            document.getElementById('adminLangLabel').textContent = languages[state.adminLang];
+            document.getElementById('parentLangLabel').textContent = languages[state.parentLang];
+        }
+
+        function toggleListening() {
+            if (state.isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (!state.recognition) return;
+            
+            state.isListening = true;
+            hideError();
+            clearCurrentTranscription();
+            
+            const lang = state.activeRole === 'admin' ? state.adminLang : state.parentLang;
+            state.recognition.lang = lang;
+            state.recognition.start();
+            
+            document.getElementById('micStatus').textContent = 'Listening...';
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.add('animate-pulse');
+            micBtn.style.backgroundColor = '#ef4444';
+        }
+
+        function stopListening() {
+            if (!state.recognition) return;
+            
+            state.isListening = false;
+            state.recognition.stop();
+            
+            document.getElementById('micStatus').textContent = 'Tap to speak';
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.remove('animate-pulse');
+            
+            if (state.activeRole === 'admin') {
+                micBtn.style.backgroundColor = '';
+                micBtn.className = 'mx-auto w-32 h-32 rounded-full flex items-center justify-center transition-all transform hover:scale-105 bg-indigo-600 hover:bg-indigo-700 shadow-xl';
+            } else {
+                micBtn.style.backgroundColor = '';
+                micBtn.className = 'mx-auto w-32 h-32 rounded-full flex items-center justify-center transition-all transform hover:scale-105 bg-green-600 hover:bg-green-700 shadow-xl';
+            }
+        }
+
+        function handleTranscription(text) {
+            document.getElementById('originalText').textContent = text;
+            document.getElementById('originalBox').classList.remove('hidden');
+            
+            const sourceLang = state.activeRole === 'admin' ? state.adminLang : state.parentLang;
+            const targetLang = state.activeRole === 'admin' ? state.parentLang : state.adminLang;
+            
+            // Simulate translation
+            const translated = simulateTranslation(text, targetLang);
+            
+            document.getElementById('translationText').textContent = translated;
+            document.getElementById('translationBox').classList.remove('hidden');
+            document.getElementById('transcriptionArea').classList.remove('hidden');
+            
+            // Add to history
+            addToHistory({
+                role: state.activeRole,
+                original: text,
+                translated: translated,
+                timestamp: new Date().toLocaleTimeString()
+            });
+            
+            // Speak translation
+            speakText(translated, targetLang);
+        }
+
+        function simulateTranslation(text, targetLang) {
+            // Simple demo translations
+            const translations = {
+                'hello': { 'es-ES': 'hola', 'zh-CN': '你好', 'vi-VN': 'xin chào', 'ar-SA': 'مرحبا' },
+                'how are you': { 'es-ES': 'cómo estás', 'zh-CN': '你好吗', 'vi-VN': 'bạn khỏe không' },
+                'thank you': { 'es-ES': 'gracias', 'zh-CN': '谢谢', 'vi-VN': 'cảm ơn', 'ar-SA': 'شكرا' },
+                'good morning': { 'es-ES': 'buenos días', 'zh-CN': '早上好', 'vi-VN': 'chào buổi sáng' },
+                'goodbye': { 'es-ES': 'adiós', 'zh-CN': '再见', 'vi-VN': 'tạm biệt' }
+            };
+
+            let result = text;
+            const lowerText = text.toLowerCase();
+            
+            for (const [eng, trans] of Object.entries(translations)) {
+                if (lowerText.includes(eng) && trans[targetLang]) {
+                    result = result.replace(new RegExp(eng, 'gi'), trans[targetLang]);
+                }
+            }
+            
+            if (result === text && targetLang !== 'en-US') {
+                result = `[DEMO: "${text}" → ${languages[targetLang]}]`;
+            }
+            
+            return result;
+        }
+
+        function speakText(text, lang) {
+            state.synth.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = 0.9;
+            
+            const voices = state.synth.getVoices();
+            const voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+            if (voice) {
+                utterance.voice = voice;
+            }
+            
+            state.synth.speak(utterance);
+        }
+
+        function addToHistory(item) {
+            state.history.push(item);
+            
+            const historyList = document.getElementById('historyList');
+            const historySection = document.getElementById('historySection');
+            
+            const div = document.createElement('div');
+            div.className = `p-4 rounded-lg ${item.role === 'admin' ? 'bg-indigo-50' : 'bg-green-50'}`;
+            div.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-medium text-gray-700">
+                        ${item.role === 'admin' ? 'Administrator' : 'Parent/Guardian'}
+                    </span>
+                    <span class="text-xs text-gray-500">${item.timestamp}</span>
+                </div>
+                <p class="text-gray-800 mb-1">${item.original}</p>
+                <p class="text-gray-600 text-sm italic">→ ${item.translated}</p>
+            `;
+            
+            historyList.appendChild(div);
+            historySection.classList.remove('hidden');
+            historyList.scrollTop = historyList.scrollHeight;
+        }
+
+        function clearHistory() {
+            state.history = [];
+            document.getElementById('historyList').innerHTML = '';
+            document.getElementById('historySection').classList.add('hidden');
+            clearCurrentTranscription();
+        }
+
+        function clearCurrentTranscription() {
+            document.getElementById('originalText').textContent = '';
+            document.getElementById('translationText').textContent = '';
+            document.getElementById('originalBox').classList.add('hidden');
+            document.getElementById('translationBox').classList.add('hidden');
+            document.getElementById('transcriptionArea').classList.add('hidden');
+        }
+
+        function showError(msg) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = msg;
+            errorMsg.classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
